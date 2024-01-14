@@ -1,6 +1,6 @@
 
 import sys
-sys.path.append('Projeto\app_proj')
+sys.path.append('C:/Users/japag/OneDrive/Documentos/GIT/Pytest-for-Unit-tests-Guide/Projeto')
 from app_proj.utils.util import format_message, calculate_sum
 
 class MyClass1:

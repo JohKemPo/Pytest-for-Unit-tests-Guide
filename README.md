@@ -93,6 +93,61 @@ Pytest implementa a seguinte descoberta de teste padrão, os nomes dos testes de
 <h3 id="subcapitulo4_1">Subcapitulo</h3>
 <p align = "justify"> &emsp;Organize seu projeto em uma estrutura de diretórios. Por exemplo:</p>
 
+```bash
+> python -m pytest tests\test_codigo.py
+=========================== test session starts ============================
+platform win32 -- Python 3.12.0, pytest-7.4.4, pluggy-1.3.0
+rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
+collected 4 items
+
+tests\test_codigo.py ....                                             [100%]
+
+============================ 4 passed in 0.01s =============================
+```
+
+```bash
+python -m pytest tests\test_codigo.py --cov
+============================== test session starts ===============================
+platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
+rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
+plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
+collected 4 items
+
+tests\test_codigo.py ....                                                   [100%]
+
+---------- coverage: platform win32, python 3.11.4-final-0 -----------
+Name                         Stmts   Miss  Cover
+------------------------------------------------
+app_proj\__init__.py             0      0   100%
+app_proj\codes\__init__.py       0      0   100%
+app_proj\codes\codigo.py        33      9    73%
+app_proj\utils\__init__.py       0      0   100%
+app_proj\utils\util.py           5      1    80%
+tests\test_codigo.py            22      0   100%
+------------------------------------------------
+TOTAL                           60     10    83%
+
+
+=============================== 4 passed in 0.06s ================================ 
+```
+```bash
+python 
+-m pytest --cov-report html:coverage/ --cov=app_proj/
+=============================== test session starts ================================  4 passed in 0.08s ===================================================================================== 
+platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
+rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
+plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
+collected 6 items
+
+tests\test_codigo.py ....                                                     [ 66%] 
+tests\utils\test_util.py ..                                                   [100%] 
+
+---------- coverage: platform win32, python 3.11.4-final-0 -----------
+Coverage HTML written to dir coverage/
+
+
+================================ 6 passed in 0.12s =================================
+```
 <!-- APENDICE -->
 
 <h2 id="apendice">Apêndice </h2>
