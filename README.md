@@ -148,8 +148,7 @@ Coverage HTML written to dir coverage/
 ================================ 6 passed in 0.12s =================================
 ```
 ```bash
-python 
--m pytest tests\ --cov
+> python -m pytest tests\ --cov
 =============================== test session starts ================================
 platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
 rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
