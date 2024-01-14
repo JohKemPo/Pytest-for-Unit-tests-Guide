@@ -17,13 +17,10 @@
     1. [Caixa de ferramentas](#subcapitulo2_1)
 1. [Asserts e verificações de testes.](#capitulo3)
     1. [Subcapitulo](#subcapitulo3_1):
-        - Tópico
 1. [Fixtures e configurações de teste.](#capitulo4)
     1. [Subcapitulo](#subcapitulo4_1):
-        - Tópico
 1. [Execução e relatórios de testes.](#capitulo5)
     1. [Subcapitulo](#subcapitulo5_1):
-        - Tópico
 1. [Apêndice](#apendice)
     1. [Ambiente virtual](#env):
         - [Miniconda](#miniconda)
