@@ -147,6 +147,34 @@ Coverage HTML written to dir coverage/
 
 ================================ 6 passed in 0.12s =================================
 ```
+```bash
+python 
+-m pytest tests\ --cov
+=============================== test session starts ================================
+platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
+rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
+plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
+collected 6 items
+
+tests\test_codigo.py ....                                                     [ 66%]
+tests\utils\test_util.py ..                                                   [100%] 
+
+---------- coverage: platform win32, python 3.11.4-final-0 -----------
+Name                         Stmts   Miss  Cover
+------------------------------------------------
+app_proj\__init__.py             0      0   100%
+app_proj\codes\__init__.py       0      0   100%
+app_proj\codes\codigo.py        23      0   100%
+app_proj\utils\__init__.py       0      0   100%
+app_proj\utils\util.py           5      0   100%
+tests\test_codigo.py            22      0   100%
+tests\utils\test_util.py         8      0   100%
+------------------------------------------------
+TOTAL                           58      0   100%
+
+
+================================ 6 passed in 0.07s =================================
+```
 <!-- APENDICE -->
 
 <h2 id="apendice">Apêndice </h2>
