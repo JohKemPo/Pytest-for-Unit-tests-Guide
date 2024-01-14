@@ -106,7 +106,7 @@ tests\test_codigo.py ....                                             [100%]
 ```
 
 ```bash
-python -m pytest tests\test_codigo.py --cov
+> python -m pytest tests\test_codigo.py --cov
 ============================== test session starts ===============================
 platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
 rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
@@ -131,8 +131,7 @@ TOTAL                           60     10    83%
 =============================== 4 passed in 0.06s ================================ 
 ```
 ```bash
-python 
--m pytest --cov-report html:coverage/ --cov=app_proj/
+> python -m pytest --cov-report html:coverage/ --cov=app_proj/
 =============================== test session starts ================================  4 passed in 0.08s ===================================================================================== 
 platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
 rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
