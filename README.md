@@ -77,9 +77,26 @@ Pytest implementa a seguinte descoberta de teste padrão, os nomes dos testes de
 <!-- CAPITULO 2 -->
 
 <h2 id="capitulo2">Estrutura básica de um teste usando Pytest:</h2>
-<h3 id="subcapitulo2_1">Subcapitulo</h3>
-<p align = "justify"> &emsp;Organize seu projeto em uma estrutura de diretórios. Por exemplo:</p>
 
+Documentação disponível em [documentação pytest](https://docs.pytest.org/en/7.1.x/getting-started.html#create-your-first-test)
+
+<h3 id="subcapitulo2_1">Primeiros passos:</h3>
+
+<p align = "justify"> &emsp;</p>
+
+### **Executanto um teste:**
+
+```bash
+> python -m pytest tests\test_codigo.py
+=========================== test session starts ============================
+platform win32 -- Python 3.12.0, pytest-7.4.4, pluggy-1.3.0
+rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
+collected 4 items
+
+tests\test_codigo.py ....                                             [100%]
+
+============================ 4 passed in 0.01s =============================
+```
 
 <!-- CAPITULO 3 -->
 
@@ -93,17 +110,9 @@ Pytest implementa a seguinte descoberta de teste padrão, os nomes dos testes de
 <h3 id="subcapitulo4_1">Subcapitulo</h3>
 <p align = "justify"> &emsp;Organize seu projeto em uma estrutura de diretórios. Por exemplo:</p>
 
-```bash
-> python -m pytest tests\test_codigo.py
-=========================== test session starts ============================
-platform win32 -- Python 3.12.0, pytest-7.4.4, pluggy-1.3.0
-rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
-collected 4 items
 
-tests\test_codigo.py ....                                             [100%]
 
-============================ 4 passed in 0.01s =============================
-```
+### **Gerando relatório de cobertura de um reste específico no terminal:**
 
 ```bash
 > python -m pytest tests\test_codigo.py --cov
@@ -130,6 +139,9 @@ TOTAL                           60     10    83%
 
 =============================== 4 passed in 0.06s ================================ 
 ```
+
+### **Gerando relatório de cobertura de um repositório específico e salvando em uma html:**
+
 ```bash
 > python -m pytest --cov-report html:coverage/ --cov=app_proj/
 =============================== test session starts ================================ 
@@ -147,6 +159,9 @@ Coverage HTML written to dir coverage/
 
 ================================ 6 passed in 0.12s =================================
 ```
+
+### **Gerando relatório de cobertura de um repositório específico no terminal:**
+
 ```bash
 > python -m pytest tests\ --cov
 =============================== test session starts ================================
@@ -293,7 +308,21 @@ pip install -r requirements.txt
 # instalar bibliotecas especificadas em multiplos arquivos
 pip install -r requirements_1.txt -r requirements_2.txt
 ```
-  
+
+<h3 id="links">Links importantes:</h3>
+
+- [Get Started](https://docs.pytest.org/en/7.1.x/getting-started.html#create-your-first-test)
+- [How to invoke pytest](https://docs.pytest.org/en/7.1.x/how-to/usage.html#usage)
+- [Fixtures reference](https://docs.pytest.org/en/7.1.x/reference/fixtures.html#fixtures)
+    - [About fixtures](https://docs.pytest.org/en/7.1.x/explanation/fixtures.html#about-fixtures)
+    - [How to use fixtures](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html#how-to-fixtures)
+- [API Reference](https://docs.pytest.org/en/7.1.x/reference/reference.html?highlight=parametrize#pytest-raises)
+- [Parametrize](https://docs.pytest.org/en/7.1.x/reference/reference.html?highlight=parametrize#pytest-mark-parametrize)
+- [How to parametrize fixtures and test functions](https://docs.pytest.org/en/7.1.x/how-to/parametrize.html#parametrize)
+- [Good Integration Practices](https://docs.pytest.org/en/7.1.x/explanation/goodpractices.html#goodpractices)
+- [mock object library](https://docs.python.org/3/library/unittest.mock.html)
+- [Github Pytest OFICIAL](https://github.com/pytest-dev/pytest)
+
 <br>
 <h1 id="Equipe">Equipe</h1><br>
 
