@@ -120,9 +120,9 @@ Name                         Stmts   Miss  Cover
 ------------------------------------------------
 app_proj\__init__.py             0      0   100%
 app_proj\codes\__init__.py       0      0   100%
-app_proj\codes\codigo.py        33      9    73%
+app_proj\codes\codigo.py        33      9   100%
 app_proj\utils\__init__.py       0      0   100%
-app_proj\utils\util.py           5      1    80%
+app_proj\utils\util.py           5      1   100%
 tests\test_codigo.py            22      0   100%
 ------------------------------------------------
 TOTAL                           60     10    83%

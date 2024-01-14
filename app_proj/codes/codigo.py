@@ -30,16 +30,16 @@ class MyClass2:
         print(f"The cube of {num} is {result}")
         
         
-if __name__ == "__main__":
-    obj1 = MyClass1("John")
-    obj1.greet(True, "Have a nice day!")
+# if __name__ == "__main__":
+#     obj1 = MyClass1("John")
+#     obj1.greet(True, "Have a nice day!")
 
-    obj2 = MyClass2(10)
-    obj2.display_info(False, "Additional info")
+#     obj2 = MyClass2(10)
+#     obj2.display_info(False, "Additional info")
 
-    numbers = [1, 2, 3, 4, 5]
-    sum_result = calculate_sum(numbers)
-    print(f"Sum of numbers: {sum_result}")
+#     numbers = [1, 2, 3, 4, 5]
+#     sum_result = calculate_sum(numbers)
+#     print(f"Sum of numbers: {sum_result}")
 
-    obj1.calculate_square(4)
-    obj2.calculate_cube(3)
+#     obj1.calculate_square(4)
+#     obj2.calculate_cube(3)
