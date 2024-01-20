@@ -11,16 +11,19 @@
 <h2 align="center">S U M A R I O</h2>
 <br>
 
-1. [Instalação e configuração do Pytest.](#capitulo1)
+1. [Instalação e configuração do Pytest](#capitulo1)
     1. [Instalação](#subcapitulo1_1)
-1. [Estrutura básica de um teste usando Pytest.](#capitulo2)
-    1. [Caixa de ferramentas](#subcapitulo2_1)
-1. [Asserts e verificações de testes.](#capitulo3)
-    1. [Subcapitulo](#subcapitulo3_1):
-1. [Fixtures e configurações de teste.](#capitulo4)
-    1. [Subcapitulo](#subcapitulo4_1):
-1. [Execução e relatórios de testes.](#capitulo5)
-    1. [Subcapitulo](#subcapitulo5_1):
+1. [Estrutura básica de um teste usando Pytest](#capitulo2)
+    1. [Estrutura de diretórios](#subcapitulo2_1)
+    1. [Descoberta de testes em Python](#subcapitulo2_2)
+    1. [Asserts e verificações de testes](#subcapitulo2_3)
+1. [Fixtures e parametros dinâmicos](#capitulo4)
+    1. [O que são fixtures?](#subcapitulo4_1)
+    1. [Parametros dinâmicos](#subcapitulo4_2)
+1. [Relatórios de testes](#capitulo5)
+    1. [Gerando relatórios de cobertura](#subcapitulo5_1)
+1. [Mocks e MagicMocks[ EM PRODUÇÃO ]](#capitulo6)
+    1. [Subcapitulo](#subcapitulo6_1)
 1. [Apêndice](#apendice)
     1. [Ambiente virtual](#env):
         - [Miniconda](#miniconda)
@@ -30,7 +33,7 @@
 
 <!-- CAPITULO 1 -->
 
-<h2 id="capitulo1">Instalação do Pytest e organização:</h2>
+<h2 id="capitulo1">Instalação do Pytest:</h2>
 <h3 id="subcapitulo1_1">Instalação</h3>
 <p align = "justify"> &emsp; Para começar, certifique-se de ter o Python e o gerenciador de pacotes pip instalados em seu sistema. Em seguida, execute o seguinte comando no terminal para instalar o Pytest:
 </p>
@@ -52,7 +55,16 @@ pip install -r requeriments.txt
 ```
 Configurações de ambiente, acesse a seção [Ambiente virtual](#env).
 
-<h3 id="">Estrutura de diretórios</h3>
+
+
+<!-- CAPITULO 2 -->
+
+<h2 id="capitulo2">Estrutura básica de um teste usando Pytest:</h2>
+
+Documentação disponível em [documentação pytest](https://docs.pytest.org/en/7.1.x/getting-started.html#create-your-first-test)
+
+
+<h3 id="subcapitulo2_1">Estrutura de diretórios</h3>
 <p align = "justify"> &emsp;Organize seu projeto em uma estrutura de diretórios. Por exemplo:</p>
 
 ```bash
@@ -70,24 +82,155 @@ Projeto/
 └── requirements.txt
 ```
 
-<h3 id="">Descoberta de testes em Python</h3>
+<h3 id="subcapitulo2_2">Descoberta de testes em Python</h3>
 
 Pytest implementa a seguinte descoberta de teste padrão, os nomes dos testes devem seguir o modelo `test_*.py` or `*_test.py`, [Mais informações na documentação](https://docs.pytest.org/en/7.4.x/explanation/goodpractices.html#test-discovery).
 
-<!-- CAPITULO 2 -->
+<h3 id="subcapitulo2_3">Asserts e verificações de testes.:</h3>
 
-<h2 id="capitulo2">Estrutura básica de um teste usando Pytest:</h2>
+### **Assertions:**
 
-Documentação disponível em [documentação pytest](https://docs.pytest.org/en/7.1.x/getting-started.html#create-your-first-test)
+Use as afirmações `assert` para verificar se o resultado esperado é igual ao resultado real. Se a afirmação for falsa, o Pytest relatará um erro.
 
-<h3 id="subcapitulo2_1">Primeiros passos:</h3>
+**Exemplo:**
 
-<p align = "justify"> &emsp;</p>
+- Código:
+```python
+# meu_codigo.py
+def multiplicar(a, b):
+    return a * b
+```
+- Teste:
+```python
+# test/test_meu_codigo.py
+import meu_codigo
 
+def test_multiplicar():
+    resultado = meu_codigo.multiplicar(3, 4)
+    assert resultado == 12, f"Esperado: 12, Obtido: {resultado}"
+```
+
+Neste exemplo, o teste verifica se a função multiplicar produz o resultado esperado de 12 ao multiplicar 3 por 4. Se o resultado for diferente de 12, o assert falhará, e o Pytest relatará um erro, **mostrando a mensagem opcional fornecida.**
+
+**Evite Side Effects:**
+
+Evite realizar operações com efeitos colaterais dentro de uma instrução assert. O objetivo é validar o resultado, não modificar o estado.
+
+### **Exemplo prático:**
+Caso queria executar os testes eles estão disponíveis em `app_proj/`.
+
+- Código:
+
+```python
+# Caminho: app_proj\codes\codigo.py
+
+from app_proj.utils.util import format_message, calculate_sum
+
+
+class MyClass1:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self, use_uppercase: bool, *args, **kwargs):
+        message = "Hello, {}!"
+        formatted_message = format_message(use_uppercase, message, self.name)
+        print(formatted_message.format(*args, **kwargs))
+
+    def calculate_square(self, num: int | float):
+        result = num ** 2
+        print(f"The square of {num} is {result}")
+
+class MyClass2:
+    def __init__(self, value: int | float):
+        self.value = value
+
+    def display_info(self, use_uppercase: bool, *args, **kwargs):
+        message = "The value is {}."
+        formatted_message = format_message(use_uppercase, message, self.value)
+        print(formatted_message.format(*args, **kwargs))
+
+    def calculate_cube(self, num: int | float):
+        result = num ** 3
+        print(f"The cube of {num} is {result}")
+```
+
+- Teste:
+
+
+```python
+# Caminho: tests\test_codigo.py
+
+from app_proj.codes.codigo import MyClass1, MyClass2
+import pytest
+
+'''
+    capsys é uma fixture do pytest que captura a saída do stdout e stderr.
+    Fixtures serão mlehor explicadas no próximo capitulo.
+'''
+
+# Tests for main.py
+def test_myclass1_greet(capsys):
+    obj = MyClass1("John")
+    obj.greet(True, "Have a nice day!")
+    captured = capsys.readouterr()
+    assert captured.out.strip() == "HELLO, JOHN!"
+
+def test_myclass1_calculate_square(capsys):
+    obj = MyClass1("John")
+    obj.calculate_square(4)
+    captured = capsys.readouterr()
+    assert captured.out.strip() == "The square of 4 is 16"
+
+def test_myclass2_display_info(capsys):
+    obj = MyClass2(10)
+    obj.display_info(False, "Additional info")
+    captured = capsys.readouterr()
+    assert captured.out.strip() == "The value is 10."
+
+def test_myclass2_calculate_cube(capsys):
+    obj = MyClass2(10)
+    obj.calculate_cube(3)
+    captured = capsys.readouterr()
+    assert captured.out.strip() == "The cube of 3 is 27"
+```
+
+- Código:
+
+```python
+# Caminho: app_proj\utils\util.py
+def format_message(use_uppercase: bool, message: str, *args, **kwargs):
+    formatted_message = message.format(*args, **kwargs)
+    return formatted_message.upper() if use_uppercase else formatted_message
+
+def calculate_sum(numbers: list):
+    return sum(numbers)
+```
+
+- Teste:
+
+```python
+# Caminho: tests\test_codigo.py
+from app_proj.utils.util import format_message, calculate_sum
+
+# Tests for utils.py
+def test_format_message():
+    assert format_message(True, "Hello, {}!", "John") == "HELLO, JOHN!"
+    assert format_message(False, "Hi, {}!", "Alice") == "Hi, Alice!"
+
+def test_calculate_sum():
+    numbers = [1, 2, 3, 4, 5]
+    assert calculate_sum(numbers) == 15
+    assert calculate_sum([]) == 0
+```
 ### **Executanto um teste:**
 
 ```bash
 > python -m pytest tests\test_codigo.py
+```
+
+**Esse é o resultado da execução dos testes**
+
+```
 =========================== test session starts ============================
 platform win32 -- Python 3.12.0, pytest-7.4.4, pluggy-1.3.0
 rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
@@ -98,27 +241,183 @@ tests\test_codigo.py ....                                             [100%]
 ============================ 4 passed in 0.01s =============================
 ```
 
+**Número de Itens Coletados e Status da Execução:**
+
+```bash
+collected 4 items
+```
+
+- Mostra que o Pytest encontrou e coletou 4 itens de teste.
+
+**Execução dos Testes:**
+
+```bash
+tests\test_codigo.py ....  
+```
+
+- Mostra o progresso da execução dos testes. Cada ponto **`.`** representa um teste que foi executado com sucesso. O `[100%]`indica que todos os testes foram executados.
+
+
 <!-- CAPITULO 3 -->
 
-<h2 id="capitulo3">Fixtures e configurações de teste:</h2>
-<h3 id="subcapitulo3_1">Subcapitulo</h3>
-<p align = "justify"> &emsp;Organize seu projeto em uma estrutura de diretórios. Por exemplo:</p>
+<h2 id="capitulo4">Fixtures e parametros dinâmicos:</h2>
+<h3 id="subcapitulo4_1">O que são fixtures?</h3>
+<p align = "justify"> &emsp;Em Pytest, as fixtures são um recurso usados para configurar o estado inicial para testes e fornecer dados pré-definidos ou recursos compartilhados, como inputs, instancias de classes, e etc. Elas permitem que você configure ambientes específicos para testes, definindo recursos que podem ser usados por vários testes ou escopos específicos.</p>
+
+
+### **Exemplo básico:**
+
+```python
+# meu_codigo.py
+def calcular(a, b):
+    return a + b
+```
+
+- Teste usando fixtures:
+
+```python
+# test/test_meu_codigo.py
+import pytest
+from meu_codigo import calcular
+
+# Fixture que fornece dois números para testar
+@pytest.fixture
+def numeros_para_teste():
+    return 3, 4
+
+# Teste utilizando a fixture
+def test_calcular_soma(numeros_para_teste):
+    a, b = numeros_para_teste
+    resultado = calcular(a, b)
+    assert resultado == 7
+```
+
+**Neste exemplo:**
+
+`numeros_para_teste` é uma fixture que fornece os números 3 e 4.
+O teste test_calcular_soma aceita numeros_para_teste como um argumento. A fixture é automaticamente injetada pelo Pytest.
+
+**Escopos de Fixtures:**
+
+As fixtures podem ter diferentes escopos:
+
+- `Função (padrão)`: A fixture é executada uma vez para cada função de teste.
+- `Módulo`: A fixture é executada uma vez para cada módulo de teste.
+- `Classe`: A fixture é executada uma vez para cada classe de teste.
+- `Sessão`: A fixture é executada uma vez para toda a sessão de teste.
+
+<h3 id="subcapitulo4_2">Parâmetros Dinâmicos</h3>
+
+Você pode parametrizar fixtures para fornecer dados diferentes a cada teste.
+
+```python
+@pytest.fixture(params=[(3, 4), (5, 6)])
+def numeros_para_teste(request):
+    return request.param
+```
+
+Parametrização de fixtures é uma funcionalidade do Pytest que permite fornecer diferentes conjuntos de dados ou configurações para testes específicos. Isso é útil quando você tem um conjunto de testes que segue um padrão semelhante, mas precisa ser executado com diferentes conjuntos de entradas.
+
+
+### **Exemplo básico:**
+
+```python
+import pytest
+from meu_codigo import somar
+
+# Fixture parametrizada
+@pytest.fixture(params=[(2, 3), (5, 7), (10, 15)])
+def numeros_para_teste(request):
+    return request.param
+
+# Teste usando a fixture parametrizada
+def test_somar(numeros_para_teste):
+    a, b = numeros_para_teste
+    resultado = somar(a, b)
+    assert resultado == a + b
+```
+
+**Neste exemplo:**
+
+- A fixture numeros_para_teste é parametrizada com uma lista de tuplas contendo diferentes pares de números.
+- A cada execução do teste, a fixture é chamada com um conjunto diferente de números.
+
+### **Parametrização de Escopo Mais Amplo:**
+
+Você pode combinar a parametrização de fixtures com escopos diferentes. Por exemplo, se você quiser que a parametrização seja feita apenas uma vez por módulo, pode usar o escopo de módulo:
+
+```python
+import pytest
+from meu_codigo import somar
+
+# Fixture parametrizada com escopo de módulo
+@pytest.fixture(params=[(2, 3), (5, 7), (10, 15)], scope="module")
+def numeros_para_teste(request):
+    return request.param
+
+# Teste usando a fixture parametrizada
+def test_somar(numeros_para_teste):
+    a, b = numeros_para_teste
+    resultado = somar(a, b)
+    assert resultado == a + b
+```
+
+### **Casos de Uso Comuns:**
+
+**Testar com Diferentes Entradas:**
+
+- Como ilustrado acima, você pode testar uma função com diferentes conjuntos de entradas.
+
+**Configurações com Dados Variados:**
+
+- Parametrize fixtures para configurar ambientes de teste com diferentes conjuntos de dados ou configurações.
+
+**Avaliação de Comportamento com Dados Diversos:**
+
+- Testar se uma função se comporta corretamente com diferentes tipos de entradas.
+
+A marcação `@pytest.mark.parametrize` é uma maneira alternativa de parametrizar testes em Pytest, que pode ser usada diretamente em funções de teste, sem a necessidade de criar uma fixture separada para isso.
+
+A marcação `@pytest.mark.parametrize` permite que você defina diferentes conjuntos de parâmetros para a mesma função de teste. Ela aceita um nome de parâmetro, uma lista de valores e gera automaticamente instâncias da função de teste para cada combinação de parâmetros.
+
+**Exemplo básico:**
+
+```python
+import pytest
+from meu_codigo import somar
+
+# Teste parametrizado usando a marcação pytest.mark.parametrize
+@pytest.mark.parametrize(
+        "a, b, esperado", [(2, 3, 5), # teste 1
+                           (5, 7, 12), # teste 2
+                           (10, 15, 25)]) # teste 3
+def test_somar(a, b, esperado):
+    resultado = somar(a, b)
+    assert resultado == esperado
+```
+
+- A marcação @pytest.mark.parametrize é aplicada à função de teste test_somar.
+
+- Os parâmetros "a", "b" e "esperado" são fornecidos como strings, seguidos por uma lista de tuplas contendo valores específicos para cada execução do teste.
+
+- O Pytest gerará automaticamente instâncias separadas da função test_somar para cada conjunto de parâmetros fornecido, resultando em três testes distintos.
+
+
 
 <!-- CAPITULO 4 -->
 
-<h2 id="capitulo4">Execução e relatórios de testes:</h2>
-<h3 id="subcapitulo4_1">Subcapitulo</h3>
-<p align = "justify"> &emsp;Organize seu projeto em uma estrutura de diretórios. Por exemplo:</p>
+<h2 id="capitulo5">Execução de relatórios dos testes:</h2>
+<h3 id="subcapitulo5_1">Gerando relatórios de cobertura:</h3>
 
-
-
-### **Gerando relatório de cobertura de um reste específico no terminal:**
+### **Gerando relatório de cobertura de um teste específico no terminal:**
 
 ```bash
 > python -m pytest tests\test_codigo.py --cov
+```
+```bash
 ============================== test session starts ===============================
 platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
-rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
+rootdir: ~\Pytest-for-Unit-tests-Guide
 plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
 collected 4 items
 
@@ -140,33 +439,22 @@ TOTAL                           60     10    83%
 =============================== 4 passed in 0.06s ================================ 
 ```
 
-### **Gerando relatório de cobertura de um repositório específico e salvando em uma html:**
+- `tests\test_codigo.py`: Especifica o caminho para o arquivo de teste que você deseja executar. Neste caso, os testes serão executados no arquivo test_codigo.py dentro do diretório tests.
 
-```bash
-> python -m pytest --cov-report html:coverage/ --cov=app_proj/
-=============================== test session starts ================================ 
-platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
-rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
-plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
-collected 6 items
+- `--cov`: Indica ao Pytest para coletar informações de cobertura durante a execução dos testes.
 
-tests\test_codigo.py ....                                                     [ 66%] 
-tests\utils\test_util.py ..                                                   [100%] 
-
----------- coverage: platform win32, python 3.11.4-final-0 -----------
-Coverage HTML written to dir coverage/
-
-
-================================ 6 passed in 0.12s =================================
-```
+- Este comando executará os testes no arquivo `tests\test_codigo.py` e calculará a cobertura **dos código associado aos testes.**
 
 ### **Gerando relatório de cobertura de um repositório específico no terminal:**
 
 ```bash
 > python -m pytest tests\ --cov
+```
+```bash
+
 =============================== test session starts ================================
 platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
-rootdir: C:\Users\japag\OneDrive\Documentos\GIT\Pytest-for-Unit-tests-Guide
+rootdir: ~\Pytest-for-Unit-tests-Guide
 plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
 collected 6 items
 
@@ -189,6 +477,63 @@ TOTAL                           58      0   100%
 
 ================================ 6 passed in 0.07s =================================
 ```
+- Usado para executar testes, juntamente com a geração de um relatório de cobertura do diretorio usando o pacote coverage.
+
+- `tests\`: Especifica o diretório onde os testes devem ser procurados. Neste caso, os testes estarão no diretório tests.
+
+ - `--cov`: Indica ao Pytest para coletar informações de cobertura durante a execução dos testes.
+
+Se você executar esse comando, o Pytest executará todos os testes no diretório tests e gerará um relatório de cobertura, indicando quais partes do código foram cobertas pelos testes. O resultado será exibido no console e, dependendo da configuração, também pode gerar um relatório mais detalhado em HTML.
+
+### **Gerando relatório de cobertura de um repositório específico e salvando em html:**
+
+```bash
+> python -m pytest --cov-report html:coverage/ --cov=app_proj/
+```
+```bash
+=============================== test session starts ================================ 
+platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0
+rootdir: ~\Pytest-for-Unit-tests-Guide
+plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
+collected 6 items
+
+tests\test_codigo.py ....                                                     [ 66%] 
+tests\utils\test_util.py ..                                                   [100%] 
+
+---------- coverage: platform win32, python 3.11.4-final-0 -----------
+Coverage HTML written to dir coverage/
+
+
+================================ 6 passed in 0.12s =================================
+```
+
+ - `--cov-report html:coverage/`: Esta parte do comando especifica que o relatório de cobertura deve ser gerado no formato HTML e salvo no diretório coverage/. Isso criará uma visualização mais detalhada da cobertura de código em formato HTML.
+
+- `--cov=app_proj/`: Indica ao Pytest para coletar informações de cobertura para o diretório app_proj/. Isso significa que a cobertura será calculada para o código dentro desse diretório.
+
+### **Relatórios Verbosos no terminal:**
+```bash
+> python -m pytest -v            
+```
+```bash
+===================================== test session starts =====================================
+platform win32 -- Python 3.11.4, pytest-7.2.1, pluggy-1.0.0 -- 
+cachedir: .pytest_cache
+rootdir: ~\Pytest-for-Unit-tests-Guide
+plugins: cov-4.0.0, mock-3.10.0, xdist-3.2.1
+collected 6 items
+
+tests/test_codigo.py::test_myclass1_greet PASSED                                         [ 16%] 
+tests/test_codigo.py::test_myclass1_calculate_square PASSED                              [ 33%]
+tests/test_codigo.py::test_myclass2_display_info PASSED                                  [ 50%] 
+tests/test_codigo.py::test_myclass2_calculate_cube PASSED                                [ 66%] 
+tests/utils/test_util.py::test_format_message PASSED                                     [ 83%] 
+tests/utils/test_util.py::test_calculate_sum PASSED                                      [100%] 
+
+====================================== 6 passed in 0.04s ======================================
+```
+ - Exibe informações detalhadas sobre a execução dos testes, incluindo o nome de cada teste e seu resultado.
+
 <!-- APENDICE -->
 
 <h2 id="apendice">Apêndice </h2>

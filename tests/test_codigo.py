@@ -1,8 +1,11 @@
 # test_main.py
+import sys
+# comando usado para adicionar o caminho do projeto ao path do python, assim o pytest consegue encontrar os módulos. Fazer somente se houver erro ao encontrar o módulo.
+sys.path.append('~/Pytest-for-Unit-tests-Guide/')
 from app_proj.codes.codigo import MyClass1, MyClass2
 import pytest
 
-
+# capsys é uma fixture do pytest que captura a saída do stdout e stderr.
 
 # Tests for main.py
 def test_myclass1_greet(capsys):

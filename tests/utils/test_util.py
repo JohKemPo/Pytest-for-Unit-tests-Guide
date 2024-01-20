@@ -1,3 +1,6 @@
+import sys
+# comando usado para adicionar o caminho do projeto ao path do python, assim o pytest consegue encontrar os módulos. Fazer somente se houver erro ao encontrar o módulo.
+sys.path.append('~/Pytest-for-Unit-tests-Guide/')
 from app_proj.utils.util import format_message, calculate_sum
 
 # Tests for utils.py
